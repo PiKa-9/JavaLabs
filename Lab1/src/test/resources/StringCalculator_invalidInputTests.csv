@@ -1,5 +1,6 @@
 # =======================
 # Step 3
+"Incorrect input", "hello"
 "Incorrect input", "1,\n"
 "Incorrect input", ","
 "Incorrect input", "\n"
@@ -7,19 +8,19 @@
 "Incorrect input", "1,"
 "Incorrect input", "1\n"
 "Incorrect input", "1abc"
-
+"Incorrect input", "1-2"
+"Incorrect input", "-,2"
+"Incorrect input", "1;-2"
+"Incorrect input", "1a2"
 
 # =======================
 # Step 4
-"Incorrect input", "//;\n1,\n"
-"Incorrect input", "//;\n;"
-"Incorrect input", "//;\n\n"
-"Incorrect input", "//;\na"
-# delimiter should be length 1
-"Incorrect input", "//\n1,2,3"
-"Incorrect input", "//;;\n123"
+"Incorrect input", "//[;]\n1,\n"
+"Incorrect input", "//[;]\n;"
+"Incorrect input", "//[;]\n\n"
+"Incorrect input", "//[;]\na"
 # delimiter can't be a digit
-"Incorrect input", "//2\n1"
+"Incorrect input", "//[2]\n1"
 
 # =======================
 # Step 4
@@ -28,6 +29,16 @@
 "Negatives not allowed: -0", "-0,0"
 "Negatives not allowed: -034", "2\n-034\n0"
 "Negatives not allowed: -1 -2", "-1,3\n-2"
-"Negatives not allowed: -3 -1 -1", "//;\n-3\n-1\n-1;0"
-"Negatives not allowed: -345 -4", "//-\n1-2--345,3,-4"
+"Negatives not allowed: -3 -1 -1", "//[;]\n-3\n-1\n-1;0"
+"Negatives not allowed: -345 -4", "//[-]\n1-2--345,3,-4"
 "Negatives not allowed: -18435385903490592583405083405084500242323", "-18435385903490592583405083405084500242323"
+
+# =======================
+# Step 7
+"Incorrect input", "//[**]\n,"
+"Incorrect input", "//[;;]\n;;"
+# "Incorrect input", "//[-]\n1-2"
+"Negatives not allowed: -3 -3 -3", "//[  ]\n-3  -3  -3"
+"Negatives not allowed: -3", "//[--]\n0--0---3"
+# delimiter can't be empty string
+"Incorrect input", "//[]\n1,2"

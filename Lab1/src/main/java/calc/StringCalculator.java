@@ -2,57 +2,64 @@ package calc;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.regex.Pattern;
 
 public class StringCalculator {
+    // Forbidden characters in delimiter: 0123456789[]
     public int add(String numbers) throws InvalidInputException {
         if (numbers.equals("")) return 0;
 
-        HashSet<Character> delimiters = new HashSet<>();
-        delimiters.add(','); delimiters.add('\n');
-        if (numbers.matches("//[^0-9]\n(.|\n)*")) {
-            delimiters.add(numbers.charAt(2));
-            numbers = numbers.substring(4);
+        HashSet<String> delimiters = new HashSet<>();
+        delimiters.add(","); delimiters.add("\n");
+        if (numbers.matches("//\\[[^0-9\\[\\]]+]\n(.|\n)*")) {
+            int j = 3;
+            String delimiter = "";
+            while (numbers.charAt(j) != ']') {
+                delimiter += numbers.charAt(j);
+                j++;
+            }
+            delimiters.add(delimiter);
+            // j - index of ]
+            numbers = numbers.substring(j+2);
+            if (numbers.equals("")) return 0;
         }
-        if (numbers.equals("")) return 0;
+
 
         int sum = 0;
-        boolean waitingNumber = true;
-        String currentNumber = "";
         String negatives = "";
-        for (int i = 0; i < numbers.length(); ++i) {
-            char c = numbers.charAt(i);
-            if (waitingNumber) {
-                if (Character.isDigit(c)) {
-                    currentNumber = currentNumber + c;
-                    waitingNumber = false;
-                } else if (c == '-') {
-                    currentNumber = "-";
-                } else {
-                    throw new InvalidInputException("Incorrect input");
-                }
-            } else {
-                if (Character.isDigit(c)) {
-                    currentNumber = currentNumber + c;
-                } else if (delimiters.contains(c)) {
-                    if (currentNumber.charAt(0) == '-') {
-                        negatives = negatives + " " + currentNumber;
-                    } else {
-                        if (!isBiggerThan1000(currentNumber)) sum += Integer.parseInt(currentNumber);
-                    }
-                    currentNumber = "";
-                    waitingNumber = true;
-                } else {
-                    throw new InvalidInputException("Incorrect input");
-                }
-            }
-        }
-        if (waitingNumber) { throw new InvalidInputException("Incorrect input"); }
-        if (currentNumber.charAt(0) == '-') {
-            negatives = negatives + " " + currentNumber;
-        } else {
-            if (!isBiggerThan1000(currentNumber)) sum += Integer.parseInt(currentNumber);
-        }
+        int i = 0;
+        while (i < numbers.length()) {
+            String currentNumber = "";
+            if (numbers.charAt(i) == '-') {currentNumber = "-"; i++;}
 
+            while ((i < numbers.length()) && Character.isDigit(numbers.charAt(i))) {
+                currentNumber += numbers.charAt(i);
+                i++;
+            }
+            if (currentNumber.equals("") || currentNumber.equals("-")) {
+                throw new InvalidInputException("Incorrect input");
+            }
+            if (currentNumber.charAt(0) == '-') {negatives += " " + currentNumber;}
+            else if (!isBiggerThan1000(currentNumber)) {sum += Integer.parseInt(currentNumber);}
+            if (i >= numbers.length()) {continue;}
+
+            String currentDelimiter = "";
+            while ((i < numbers.length()) && !Character.isDigit(numbers.charAt(i))) {
+                currentDelimiter += numbers.charAt(i);
+                i++;
+            }
+            if (i >= numbers.length()) {throw new InvalidInputException("Incorrect input");}
+            if (delimiters.contains(currentDelimiter)) {
+                continue;
+            } else if ((numbers.charAt(i-1) == '-') && (currentDelimiter.length() >= 2)) {
+                currentDelimiter = currentDelimiter.substring(0, currentDelimiter.length()-1);
+                if (delimiters.contains(currentDelimiter)) {i = i - 1;}
+                else {throw new InvalidInputException("Incorrect input");}
+            } else {
+                throw new InvalidInputException("Incorrect input");
+            }
+
+        }
 
         if (!negatives.equals("")) {
             throw new InvalidInputException("Negatives not allowed:" + negatives);
