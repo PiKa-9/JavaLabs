@@ -37,7 +37,7 @@ public class StringCalculator {
                     if (currentNumber.charAt(0) == '-') {
                         negatives = negatives + " " + currentNumber;
                     } else {
-                        sum += Integer.parseInt(currentNumber);
+                        if (!isBiggerThan1000(currentNumber)) sum += Integer.parseInt(currentNumber);
                     }
                     currentNumber = "";
                     waitingNumber = true;
@@ -50,7 +50,7 @@ public class StringCalculator {
         if (currentNumber.charAt(0) == '-') {
             negatives = negatives + " " + currentNumber;
         } else {
-            sum += Integer.parseInt(currentNumber);
+            if (!isBiggerThan1000(currentNumber)) sum += Integer.parseInt(currentNumber);
         }
 
 
@@ -59,5 +59,15 @@ public class StringCalculator {
         }
 
         return sum;
+    }
+
+    private static boolean isBiggerThan1000(String num) {
+        int j = 0;
+        while ((j < num.length()-1) && (num.charAt(j) == '0')) j++;
+        num = num.substring(j);
+        if ((num.length() <= 3) || num.equals("1000")) {
+            return false;
+        }
+        return true;
     }
 }

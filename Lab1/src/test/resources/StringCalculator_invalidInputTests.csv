@@ -30,3 +30,4 @@
 "Negatives not allowed: -1 -2", "-1,3\n-2"
 "Negatives not allowed: -3 -1 -1", "//;\n-3\n-1\n-1;0"
 "Negatives not allowed: -345 -4", "//-\n1-2--345,3,-4"
+"Negatives not allowed: -18435385903490592583405083405084500242323", "-18435385903490592583405083405084500242323"
