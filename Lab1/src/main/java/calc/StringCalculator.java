@@ -1,12 +1,13 @@
 package calc;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class StringCalculator {
     public int add(String numbers) throws InvalidInputException {
         if (numbers.equals("")) return 0;
 
-        ArrayList<Character> delimiters = new ArrayList<>();
+        HashSet<Character> delimiters = new HashSet<>();
         delimiters.add(','); delimiters.add('\n');
         if (numbers.matches("//[^0-9]\n(.|\n)*")) {
             delimiters.add(numbers.charAt(2));
@@ -17,6 +18,7 @@ public class StringCalculator {
         int sum = 0;
         boolean waitingNumber = true;
         String currentNumber = "";
+        String negatives = "";
         for (int i = 0; i < numbers.length(); ++i) {
             char c = numbers.charAt(i);
             if (waitingNumber) {
@@ -32,7 +34,11 @@ public class StringCalculator {
                 if (Character.isDigit(c)) {
                     currentNumber = currentNumber + c;
                 } else if (delimiters.contains(c)) {
-                    sum += Integer.parseInt(currentNumber);
+                    if (currentNumber.charAt(0) == '-') {
+                        negatives = negatives + " " + currentNumber;
+                    } else {
+                        sum += Integer.parseInt(currentNumber);
+                    }
                     currentNumber = "";
                     waitingNumber = true;
                 } else {
@@ -41,7 +47,16 @@ public class StringCalculator {
             }
         }
         if (waitingNumber) { throw new InvalidInputException("Incorrect input"); }
-        sum += Integer.parseInt(currentNumber);
+        if (currentNumber.charAt(0) == '-') {
+            negatives = negatives + " " + currentNumber;
+        } else {
+            sum += Integer.parseInt(currentNumber);
+        }
+
+
+        if (!negatives.equals("")) {
+            throw new InvalidInputException("Negatives not allowed:" + negatives);
+        }
 
         return sum;
     }
