@@ -1,8 +1,6 @@
 package calc;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.regex.Pattern;
 
 public class StringCalculator {
     // Forbidden characters in delimiter: 0123456789[]
@@ -11,13 +9,17 @@ public class StringCalculator {
 
         HashSet<String> delimiters = new HashSet<>();
         delimiters.add(","); delimiters.add("\n");
-        if (numbers.matches("//(\\[[^0-9\\[\\]]])+\n(.|\n)*")) {
+        if (numbers.matches("//(\\[[^0-9\\[\\]]+])+\n(.|\n)*")) {
             int j = 2;
-            String delimiter = "";
             while (numbers.charAt(j) != '\n') {
                 j++;
-                delimiters.add(numbers.charAt(j) + "");
-                j += 2;
+                String delimiter = "";
+                while (numbers.charAt(j) != ']') {
+                    delimiter += numbers.charAt(j);
+                    j++;
+                }
+                delimiters.add(delimiter);
+                j++;
             }
 
             // j - index of \n
