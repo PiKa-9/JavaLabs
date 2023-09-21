@@ -13,6 +13,7 @@ public class StringCalculatorTest {
     }
     private String ProcessSlashCharacters(String numbers) {
         numbers = numbers.replace("\\n", "\n");
+        numbers = numbers.replace("\\t", "\t");
         return numbers;
     }
     @ParameterizedTest
