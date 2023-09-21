@@ -35,10 +35,24 @@
 
 # =======================
 # Step 7
-"Incorrect input", "//[**]\n,"
-"Incorrect input", "//[;;]\n;;"
-# "Incorrect input", "//[-]\n1-2"
-"Negatives not allowed: -3 -3 -3", "//[  ]\n-3  -3  -3"
-"Negatives not allowed: -3", "//[--]\n0--0---3"
+# "Incorrect input", "//[**]\n,"
+# "Incorrect input", "//[;;]\n;;"
+# # "Incorrect input", "//[-]\n1-2"
+# "Negatives not allowed: -3 -3 -3", "//[  ]\n-3  -3  -3"
+# "Negatives not allowed: -3", "//[--]\n0--0---3"
 # delimiter can't be empty string
 "Incorrect input", "//[]\n1,2"
+
+# =======================
+# Step 8
+# Several delimiters
+"Incorrect input", "//[*][P]\n*"
+"Incorrect input", "//[,][;]\n1;;1"
+"Incorrect input", "//[;][]\n1,2,3"
+"Negatives not allowed: -2 -007", "//[-][A]\n0A-2--007"
+"Incorrect input", "//[,]["
+"Incorrect input", "//[*][*"
+"Incorrect input", "//[**"
+"Incorrect input", "//[*]"
+"Incorrect input", "//[*]]"
+

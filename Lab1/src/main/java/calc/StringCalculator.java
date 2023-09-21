@@ -11,19 +11,19 @@ public class StringCalculator {
 
         HashSet<String> delimiters = new HashSet<>();
         delimiters.add(","); delimiters.add("\n");
-        if (numbers.matches("//\\[[^0-9\\[\\]]+]\n(.|\n)*")) {
-            int j = 3;
+        if (numbers.matches("//(\\[[^0-9\\[\\]]])+\n(.|\n)*")) {
+            int j = 2;
             String delimiter = "";
-            while (numbers.charAt(j) != ']') {
-                delimiter += numbers.charAt(j);
+            while (numbers.charAt(j) != '\n') {
                 j++;
+                delimiters.add(numbers.charAt(j) + "");
+                j += 2;
             }
-            delimiters.add(delimiter);
-            // j - index of ]
-            numbers = numbers.substring(j+2);
+
+            // j - index of \n
+            numbers = numbers.substring(j + 1);
             if (numbers.equals("")) return 0;
         }
-
 
         int sum = 0;
         String negatives = "";
