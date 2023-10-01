@@ -46,6 +46,35 @@ public class Matrix {
         }
     }
 
+    public double getElement(int i, int j) {
+        if ((0 <= i) && (i < rowCount) && (0 <= j) && (j < colCount)) {
+            return data[i][j];
+        } else {
+            System.out.println("Invalid index range. Returning 0.");
+            return 0;
+        }
+    }
+    public double[] getRow(int i) {
+        if ((0 <= i) && (i < rowCount)) {
+            return data[i];
+        } else {
+            System.out.println("Invalid index range. Returning NULL.");
+            return null;
+        }
+    }
+    public double[] getCol(int j) {
+        if ((0 <= j) && (j < colCount)) {
+            double[] col = new double[rowCount];
+            for (int i = 0; i < rowCount; ++i) {
+                col[i] = data[i][j];
+            }
+            return col;
+        } else {
+            System.out.println("Invalid index range. Returning NULL.");
+            return null;
+        }
+    }
+
     public int getRowCount() {
         return rowCount;
     }

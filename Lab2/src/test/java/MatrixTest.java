@@ -89,4 +89,58 @@ public class MatrixTest {
         assertArrayEquals(dataOriginal, A.getData());
         assertEquals("Invalid shape of input values. Values weren't filled.", outputStreamCaptor.toString().trim());
     }
+
+    @Test
+    public void ShouldReturnElement() {
+        Matrix A = new Matrix(3, 2);
+        A.fillMatrix(new double[][]{{1, 2}, {-2.3, 2.213}, {0, 3.3}});
+
+        assertEquals(2.213, A.getElement(1, 1));
+    }
+    @ParameterizedTest
+    @CsvSource({"3,3", "2,2", "-1,0", "0,-1"})
+    public void ShouldNotReturnElement(int i, int j) {
+        Matrix A = new Matrix(3, 2);
+        A.fillMatrix(new double[][]{{1, 2}, {-2.3, 2.213}, {0, 3.3}});
+
+        A.getElement(i, j);
+
+        assertEquals("Invalid index range. Returning 0.", outputStreamCaptor.toString().trim());
+    }
+
+    @Test
+    public void ShouldReturnRow() {
+        Matrix A = new Matrix(3, 2);
+        A.fillMatrix(new double[][]{{1, 2}, {-2.3, 2.213}, {0, 3.3}});
+
+        assertArrayEquals(new double[]{-2.3, 2.213}, A.getRow(1));
+    }
+    @ParameterizedTest
+    @CsvSource({"4", "-1"})
+    public void ShouldNotReturnRow(int i) {
+        Matrix A = new Matrix(3, 2);
+        A.fillMatrix(new double[][]{{1, 2}, {-2.3, 2.213}, {0, 3.3}});
+
+        A.getRow(i);
+
+        assertEquals("Invalid index range. Returning NULL.", outputStreamCaptor.toString().trim());
+    }
+
+    @Test
+    public void ShouldReturnCol() {
+        Matrix A = new Matrix(3, 2);
+        A.fillMatrix(new double[][]{{1, 2}, {-2.3, 2.213}, {0, 3.3}});
+
+        assertArrayEquals(new double[]{1, -2.3, 0}, A.getCol(0));
+    }
+    @ParameterizedTest
+    @CsvSource({"4", "-1"})
+    public void ShouldNotReturnCol(int j) {
+        Matrix A = new Matrix(3, 2);
+        A.fillMatrix(new double[][]{{1, 2}, {-2.3, 2.213}, {0, 3.3}});
+
+        A.getCol(j);
+
+        assertEquals("Invalid index range. Returning NULL.", outputStreamCaptor.toString().trim());
+    }
 }
