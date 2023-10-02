@@ -75,6 +75,10 @@ public class Matrix {
         }
     }
 
+    public int[] getDim() {
+        return new int[]{rowCount, colCount};
+    }
+
     public int getRowCount() {
         return rowCount;
     }

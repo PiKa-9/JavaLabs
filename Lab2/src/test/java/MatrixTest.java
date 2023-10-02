@@ -143,4 +143,10 @@ public class MatrixTest {
 
         assertEquals("Invalid index range. Returning NULL.", outputStreamCaptor.toString().trim());
     }
+
+    @Test
+    public void ShouldReturnMatrixDimensions() {
+        Matrix A = new Matrix(3, 2);
+        assertArrayEquals(new int[]{3, 2}, A.getDim());
+    }
 }
