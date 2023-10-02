@@ -2,22 +2,22 @@ package org.matrix;
 
 import java.util.Arrays;
 
-public class Matrix {
-    private int rowCount;
-    private int colCount;
-    private double[][] data;
+final public class ImmutableMatrix {
+    final private int rowCount;
+    final private int colCount;
+    final private double[][] data;
 
-    public Matrix() {
+    public ImmutableMatrix() {
         rowCount = 0;
         colCount = 0;
         data = new double[0][0];
     }
-    public Matrix(int rowCount, int colCount) {
+    public ImmutableMatrix(int rowCount, int colCount) {
         this.rowCount = rowCount;
         this.colCount = colCount;
         this.data = new double[rowCount][colCount];
     }
-    public Matrix(Matrix matrix) {
+    public ImmutableMatrix(Matrix matrix) {
         rowCount = matrix.getRowCount();
         colCount = matrix.getColCount();
         double[][] dataToCopy = matrix.getData();
@@ -29,23 +29,9 @@ public class Matrix {
         }
     }
 
-    public void fillOneValue(int i, int j, double val) {
-        if ((0 <= i) && (i < rowCount) && (0 <= j) && (j < colCount)) {
-            data[i][j] = val;
-        } else {
-            System.out.println("Invalid index range. Value wasn't filled.");
-        }
-    }
+    public void fillOneValue(int i, int j, double val) { System.out.println("The object is immutable. Value wasn't filled."); }
     public void fillMatrix(double[][] data) {
-        if ((rowCount == data.length) && (colCount == data[0].length)) {
-            for (int i = 0; i < rowCount; ++i) {
-                for (int j = 0; j < colCount; ++j) {
-                    this.data[i][j] = data[i][j];
-                }
-            }
-        } else {
-            System.out.println("Invalid shape of input values. Values weren't filled.");
-        }
+        System.out.println("The object is immutable. Values weren't filled.");
     }
 
     public double getElement(int i, int j) {
@@ -58,7 +44,9 @@ public class Matrix {
     }
     public double[] getRow(int i) {
         if ((0 <= i) && (i < rowCount)) {
-            return data[i];
+            double[] row = new double[colCount];
+            System.arraycopy(data[i], 0, row, 0, colCount);
+            return row;
         } else {
             System.out.println("Invalid index range. Returning NULL.");
             return null;
@@ -84,7 +72,7 @@ public class Matrix {
     @Override
     public boolean equals(Object o) {
         if (getClass() != o.getClass()) { return false; }
-        Matrix matrix = (Matrix) o;
+        ImmutableMatrix matrix = (ImmutableMatrix) o;
         if ((rowCount != matrix.getRowCount()) || (colCount != matrix.getColCount())) {return false;}
         if (Arrays.deepEquals(data, matrix.getData())) {return true;}
         return false;
@@ -105,6 +93,10 @@ public class Matrix {
         return colCount;
     }
     public double[][] getData() {
-        return data;
+        double[][] dataCopy = new double[rowCount][colCount];
+        for (int i = 0; i < rowCount; ++i) {
+            System.arraycopy(data[i], 0, dataCopy[i], 0, colCount);
+        }
+        return dataCopy;
     }
 }
