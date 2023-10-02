@@ -1,5 +1,8 @@
 package org.matrix;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public class Matrix {
     private int rowCount;
     private int colCount;
@@ -77,6 +80,23 @@ public class Matrix {
 
     public int[] getDim() {
         return new int[]{rowCount, colCount};
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (getClass() != o.getClass()) { return false; }
+        Matrix matrix = (Matrix) o;
+        if ((rowCount != matrix.rowCount) || (colCount != matrix.colCount)) {return false;}
+        if (Arrays.deepEquals(data, matrix.getData())) {return true;}
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Arrays.deepHashCode(data);
+        result = 31 * result + rowCount;
+        result = 31 * result + colCount;
+        return result;
     }
 
     public int getRowCount() {

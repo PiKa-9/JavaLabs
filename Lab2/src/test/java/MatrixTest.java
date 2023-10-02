@@ -149,4 +149,38 @@ public class MatrixTest {
         Matrix A = new Matrix(3, 2);
         assertArrayEquals(new int[]{3, 2}, A.getDim());
     }
+
+    @Test
+    void equalsTest() {
+        Matrix A = new Matrix(3, 2);
+        Matrix B = new Matrix(3, 2);
+        Matrix C = new Matrix(3, 1);
+        Matrix D = new Matrix(2, 2);
+        Matrix E = new Matrix(3, 2);
+        A.fillMatrix(new double[][]{{1, 2}, {-2.3, 2.213}, {0, 3.3}});
+        B.fillMatrix(new double[][]{{1, 2}, {-2.3, 2.213}, {0, 3.3}});
+        C.fillMatrix(new double[][]{{1}, {-2.3}, {0}});
+        D.fillMatrix(new double[][]{{1, 2}, {-2.3, 2.213}});
+        E.fillMatrix(new double[][]{{1, 2.01}, {-2.3, 2.213}, {0, 3.3}});
+
+        assertTrue(A.equals(B));
+        assertFalse(A.equals(new double[][]{{1, 2}, {-2.3, 2.213}, {0, 3.3}}));
+        assertFalse(A.equals(C));
+        assertFalse(A.equals(D));
+        assertFalse(A.equals(E));
+    }
+    @Test
+    void hashCodeTest() {
+        Matrix A = new Matrix(3, 2);
+        Matrix B = new Matrix(3, 2);
+        Matrix C = new Matrix(2, 1);
+        Matrix D = new Matrix(3, 2);
+        A.fillMatrix(new double[][]{{1, 2}, {-2.3, 2.213}, {0, 3.3}});
+        B.fillMatrix(new double[][]{{1, 2}, {-2.3, 2.213}, {0, 3.3}});
+        C.fillMatrix(new double[][]{{-12.}, {-2.}});
+        D.fillMatrix(new double[][]{{1, 2}, {-2.3, 2.213}, {-0.1, 3.4}});
+        assertEquals(A.hashCode(), B.hashCode());
+        assertNotEquals(A.hashCode(), C.hashCode());
+        assertNotEquals(A.hashCode(), D.hashCode());
+    }
 }
