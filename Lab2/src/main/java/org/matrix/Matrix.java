@@ -98,6 +98,28 @@ public class Matrix {
         return result;
     }
 
+    public Matrix add(Matrix matrix) {
+        if ((rowCount != matrix.getRowCount()) || (colCount != matrix.getColCount())) {
+            System.out.println("Matrixes don't have the same dimensions. Returning null.");
+            return null;
+        }
+        Matrix res = new Matrix(rowCount, colCount);
+        for (int i = 0; i < rowCount; ++i) {
+            for (int j = 0; j < colCount; ++j) {
+                res.fillOneValue(i, j, data[i][j] + matrix.getElement(i, j));
+            }
+        }
+        return res;
+    }
+    public Matrix multByScalar(double scalar) {
+        Matrix res = new Matrix(rowCount, colCount);
+        for (int i = 0; i < rowCount; ++i) {
+            for (int j = 0; j < colCount; ++j) {
+                res.fillOneValue(i, j, scalar * data[i][j]);
+            }
+        }
+        return res;
+    }
     public int getRowCount() {
         return rowCount;
     }

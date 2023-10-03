@@ -8,13 +8,24 @@ import org.matrix.Matrix;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MatrixTest {
     private final PrintStream standardOut = System.out;
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
+
+    /* Custom matrix equality check with epsilon-precision */
+    public boolean matrixesEqual(double[][] A, double[][] B, double eps) {
+        if ((A.length == 0) && (B.length == 0)) { return true; }
+        if (((A.length == 0) && (B.length > 0)) || ((A.length > 0) && (B.length == 0))) { return false; }
+        if ((A.length != B.length) || (A[0].length != B[0].length)) { return false; }
+        for (int i = 0; i < A.length; ++i) {
+            for (int j = 0; j < A[0].length; ++j) {
+                if (Math.abs(A[i][j] - B[i][j]) > eps) { return false; }
+            }
+        }
+        return true;
+    }
 
     @BeforeEach void setUp() {
         System.setOut(new PrintStream(outputStreamCaptor));
@@ -179,8 +190,45 @@ public class MatrixTest {
         B.fillMatrix(new double[][]{{1, 2}, {-2.3, 2.213}, {0, 3.3}});
         C.fillMatrix(new double[][]{{-12.}, {-2.}});
         D.fillMatrix(new double[][]{{1, 2}, {-2.3, 2.213}, {-0.1, 3.4}});
+
         assertEquals(A.hashCode(), B.hashCode());
         assertNotEquals(A.hashCode(), C.hashCode());
         assertNotEquals(A.hashCode(), D.hashCode());
+    }
+
+    @Test
+    void ShouldAddMatrix() {
+        Matrix A = new Matrix(3, 2);
+        Matrix B = new Matrix(3, 2);
+        A.fillMatrix(new double[][]{{-1, 3.2}, {1, 2}, {-2.3, 2.213}});
+        B.fillMatrix(new double[][]{{1, -2.}, {-2., 2.2}, {-3.3, 2.213}});
+
+        Matrix res = A.add(B);
+
+        assertEquals(res.getRowCount(), A.getRowCount());
+        assertEquals(res.getColCount(), A.getColCount());
+        assertTrue(matrixesEqual(res.getData(), new double[][]{{0, 1.2}, {-1., 4.2}, {-5.6, 4.426}}, 1e-8));
+    }
+    @ParameterizedTest
+    @CsvSource({"4,3", "3,1"})
+    public void ShouldNotAddMatrix(int rowCount, int colCount) {
+        Matrix A = new Matrix(3, 2);
+        Matrix B = new Matrix(rowCount, colCount);
+
+        A.add(B);
+
+        assertEquals("Matrixes don't have the same dimensions. Returning null.", outputStreamCaptor.toString().trim());
+    }
+
+    @Test
+    void ShouldMultiplyByScalar() {
+        Matrix A = new Matrix(2, 2);
+        A.fillMatrix(new double[][]{{1, 2}, {-2.3, 2.213}});
+
+        Matrix res = A.multByScalar(2.2);
+
+        assertEquals(res.getRowCount(), A.getRowCount());
+        assertEquals(res.getColCount(), A.getColCount());
+        assertTrue(matrixesEqual(res.getData(), new double[][]{{2.2, 4.4}, {-5.06, 4.8686}}, 1e-8));
     }
 }
