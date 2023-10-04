@@ -20,11 +20,12 @@ public class SimpleTesting {
 
     public static void main(String[] args) {
         Matrix A = new Matrix(3, 2);
-        Matrix B = new Matrix(3, 2);
+        Matrix B = new Matrix(2, 2);
         A.fillMatrix(new double[][]{{1, 2}, {-2.3, 2.213}, {0, 3.3}});
-        B.fillMatrix(new double[][]{{1, 2}, {-2.3, 2.213}, {0, 3.3}});
+        B.fillMatrix(new double[][]{{-2.3, 2.213}, {0, 3.3}});
 
-        displayMatrix(A.add(B).getData());
-        displayMatrix(A.multByScalar(-1.2).getData());
+//        displayMatrix(A.add(B).getData());
+//        displayMatrix(A.multByScalar(-1.2).getData());
+        displayMatrix(B.mult(B).getData());
     }
 }

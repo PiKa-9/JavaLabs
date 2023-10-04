@@ -231,4 +231,29 @@ public class MatrixTest {
         assertEquals(res.getColCount(), A.getColCount());
         assertTrue(matrixesEqual(res.getData(), new double[][]{{2.2, 4.4}, {-5.06, 4.8686}}, 1e-8));
     }
+
+    @Test
+    void ShouldMultiplyMatrixes() {
+        Matrix A = new Matrix(3, 2);
+        Matrix B = new Matrix(2, 3);
+        A.fillMatrix(new double[][]{{-1, 1.5}, {1., 2.}, {-2.3, 2.}});
+        B.fillMatrix(new double[][]{{1, -2., 0}, {-2., 0.5, 1.1}});
+
+        Matrix res = A.mult(B);
+
+        assertEquals(A.getRowCount(), res.getRowCount());
+        assertEquals(B.getColCount(), res.getColCount());
+        assertTrue(matrixesEqual(new double[][]{{-4, 2.75, 1.65}, {-3, -1, 2.2}, {-6.3, 5.6, 2.2}}, res.getData(), 1e-8));
+    }
+    @ParameterizedTest
+    @CsvSource({"3,2", "1,1"})
+    public void ShouldNotMultiplyMatrix(int rowCount, int colCount) {
+        Matrix A = new Matrix(3, 2);
+        Matrix B = new Matrix(rowCount, colCount);
+
+        A.mult(B);
+
+        assertEquals("Wrong dimensions, can't multiply. Returning null.", outputStreamCaptor.toString().trim());
+    }
+
 }

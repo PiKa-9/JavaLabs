@@ -120,6 +120,28 @@ public class Matrix {
         }
         return res;
     }
+
+    public static double dotProduct(double[] a, double[] b) {
+        double res = 0;
+        if (a.length == b.length) {
+            for (int i = 0; i < a.length; ++i) { res += a[i]*b[i]; }
+        }
+        return res;
+    }
+    public Matrix mult(Matrix matrix) {
+        if (colCount != matrix.getRowCount()) {
+            System.out.println("Wrong dimensions, can't multiply. Returning null.");
+            return null;
+        }
+        Matrix res = new Matrix(rowCount, matrix.getColCount());
+        for (int i = 0; i < rowCount; ++i) {
+            for (int j = 0; j < matrix.getColCount(); ++j) {
+                res.fillOneValue(i, j, dotProduct(this.getRow(i), matrix.getCol(j)));
+            }
+        }
+        return res;
+    }
+
     public int getRowCount() {
         return rowCount;
     }
