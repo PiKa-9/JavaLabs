@@ -142,6 +142,16 @@ public class Matrix {
         return res;
     }
 
+    public Matrix transpose() {
+        Matrix res = new Matrix(colCount, rowCount);
+        for (int i = 0; i < rowCount; ++i) {
+            for (int j = 0; j < colCount; ++j) {
+                res.fillOneValue(j, i, data[i][j]);
+            }
+        }
+        return res;
+    }
+
     public int getRowCount() {
         return rowCount;
     }

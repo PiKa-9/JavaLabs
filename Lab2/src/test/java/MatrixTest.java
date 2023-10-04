@@ -256,4 +256,15 @@ public class MatrixTest {
         assertEquals("Wrong dimensions, can't multiply. Returning null.", outputStreamCaptor.toString().trim());
     }
 
+    @Test
+    void ShouldTranspose() {
+        Matrix A = new Matrix(3, 2);
+        A.fillMatrix(new double[][]{{-1, 1.5}, {1., 2.}, {-2.3, 2.}});
+
+        Matrix res = A.transpose();
+
+        assertEquals(A.getColCount(), res.getRowCount());
+        assertEquals(A.getRowCount(), res.getColCount());
+        assertTrue(matrixesEqual(new double[][]{{-1, 1., -2.3}, {1.5, 2., 2.}}, res.getData(), 1e-8));
+    }
 }

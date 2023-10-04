@@ -26,6 +26,7 @@ public class SimpleTesting {
 
 //        displayMatrix(A.add(B).getData());
 //        displayMatrix(A.multByScalar(-1.2).getData());
-        displayMatrix(B.mult(B).getData());
+        displayMatrix(A.mult(A.transpose()).getData());
+        displayMatrix(A.transpose().getData());
     }
 }
