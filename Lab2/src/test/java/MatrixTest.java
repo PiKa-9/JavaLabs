@@ -267,4 +267,13 @@ public class MatrixTest {
         assertEquals(A.getRowCount(), res.getColCount());
         assertTrue(matrixesEqual(new double[][]{{-1, 1., -2.3}, {1.5, 2., 2.}}, res.getData(), 1e-8));
     }
+
+    @Test
+    void ShouldReturnDiagonalMatrix() {
+        double[] arr = new double[]{-2.2, 3.1, 0.2};
+
+        Matrix res = Matrix.getDiagonalMatrix(arr);
+
+        assertTrue(matrixesEqual(new double[][]{{-2.2, 0, 0}, {0, 3.1, 0}, {0, 0, 0.2}}, res.getData(), 1e-8));
+    }
 }

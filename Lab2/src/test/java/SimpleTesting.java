@@ -28,5 +28,6 @@ public class SimpleTesting {
 //        displayMatrix(A.multByScalar(-1.2).getData());
         displayMatrix(A.mult(A.transpose()).getData());
         displayMatrix(A.transpose().getData());
+        displayMatrix(Matrix.getDiagonalMatrix(new double[]{1, -23, 0.2043}).getData());
     }
 }

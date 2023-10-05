@@ -152,6 +152,12 @@ public class Matrix {
         return res;
     }
 
+    public static Matrix getDiagonalMatrix(double[] arr) {
+        Matrix res = new Matrix(arr.length, arr.length);
+        for (int i = 0; i < arr.length; ++i) { res.fillOneValue(i, i, arr[i]); }
+        return res;
+    }
+
     public int getRowCount() {
         return rowCount;
     }
