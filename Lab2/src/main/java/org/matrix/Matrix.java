@@ -1,6 +1,7 @@
 package org.matrix;
 
 import java.util.Arrays;
+import java.util.Random;
 
 public class Matrix {
     private int rowCount;
@@ -165,6 +166,29 @@ public class Matrix {
         }
         Matrix res = new Matrix(n, n);
         for (int i = 0; i < n; ++i) { res.fillOneValue(i, i, 1); }
+        return res;
+    }
+
+    public static Matrix getRandomRowMatrix(int n, double lowerBound, double upperBound) {
+        // [lowerBound, upperBound) - range of random values
+        // if lowerBound = upperBound, then all filled values equal lowerBound
+        if (n < 0) {
+            System.out.println("Can't create matrix with negative dimension. Returning null.");
+            return null;
+        }
+        if (lowerBound > upperBound) {
+            System.out.println("Invalid range. Returning null.");
+            return null;
+        }
+        Matrix res = new Matrix(1, n);
+        Random random = new Random();
+        for (int i = 0; i < n; ++i) {
+            if (lowerBound == upperBound) {
+                res.fillOneValue(0, i, lowerBound);
+            } else {
+                res.fillOneValue(0, i, random.nextDouble(lowerBound, upperBound));
+            }
+        }
         return res;
     }
 

@@ -1,6 +1,7 @@
 import org.matrix.Matrix;
 
 import java.security.spec.RSAOtherPrimeInfo;
+import java.util.Random;
 
 public class SimpleTesting {
     public static void displayMatrix(double[][] data) {
@@ -28,8 +29,8 @@ public class SimpleTesting {
 //        displayMatrix(A.multByScalar(-1.2).getData());
 //        displayMatrix(A.mult(A.transpose()).getData());
 //        displayMatrix(A.transpose().getData());
-        displayMatrix(Matrix.getDiagonalMatrix(new double[]{1, -23, 0.2043}).getData());
-        displayMatrix(Matrix.getIdentityMatrix(2).getData());
-
+//        displayMatrix(Matrix.getDiagonalMatrix(new double[]{1, -23, 0.2043}).getData());
+//        displayMatrix(Matrix.getIdentityMatrix(2).getData());
+        displayMatrix(Matrix.getRandomRowMatrix(3, -4, 1).getData());
     }
 }
