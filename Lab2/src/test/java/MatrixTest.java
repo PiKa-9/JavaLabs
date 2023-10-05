@@ -318,4 +318,32 @@ public class MatrixTest {
         assertNull(res);
         assertEquals("Invalid range. Returning null.", outputStreamCaptor.toString().trim());
     }
+
+    @Test
+    void ShouldReturnColumnMatrix() {
+        Matrix A = Matrix.getRandomColumnMatrix(3, -3, 3);
+        Matrix B = Matrix.getRandomColumnMatrix(4, 1, 1);
+
+        assertEquals(A.getRowCount(), 3);
+        assertEquals(A.getColCount(), 1);
+        assertFalse(matrixesEqual(new double[][]{{0}, {0}, {0}}, A.getData(), 1e-8));
+
+        assertEquals(B.getRowCount(), 4);
+        assertEquals(B.getColCount(), 1);
+        assertArrayEquals(new double[][]{{1}, {1}, {1}, {1}}, B.getData());
+    }
+    @Test
+    void ShouldNotReturnColumnMatrix() {
+        Matrix res = Matrix.getRandomColumnMatrix(-1, -3, 3);
+
+        assertNull(res);
+        assertEquals("Can't create matrix with negative dimension. Returning null.", outputStreamCaptor.toString().trim());
+    }
+    @Test
+    void ShouldNotReturnColumnMatrixInvalidRange() {
+        Matrix res = Matrix.getRandomColumnMatrix(3, 1, 0);
+
+        assertNull(res);
+        assertEquals("Invalid range. Returning null.", outputStreamCaptor.toString().trim());
+    }
 }

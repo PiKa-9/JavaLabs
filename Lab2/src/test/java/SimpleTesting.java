@@ -32,5 +32,6 @@ public class SimpleTesting {
 //        displayMatrix(Matrix.getDiagonalMatrix(new double[]{1, -23, 0.2043}).getData());
 //        displayMatrix(Matrix.getIdentityMatrix(2).getData());
         displayMatrix(Matrix.getRandomRowMatrix(3, -4, 1).getData());
+        displayMatrix(Matrix.getRandomColumnMatrix(3, -4, 1).getData());
     }
 }

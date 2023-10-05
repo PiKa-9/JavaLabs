@@ -192,6 +192,29 @@ public class Matrix {
         return res;
     }
 
+    public static Matrix getRandomColumnMatrix(int n, double lowerBound, double upperBound) {
+        // [lowerBound, upperBound) - range of random values
+        // if lowerBound = upperBound, then all filled values equal lowerBound
+        if (n < 0) {
+            System.out.println("Can't create matrix with negative dimension. Returning null.");
+            return null;
+        }
+        if (lowerBound > upperBound) {
+            System.out.println("Invalid range. Returning null.");
+            return null;
+        }
+        Matrix res = new Matrix(n, 1);
+        Random random = new Random();
+        for (int i = 0; i < n; ++i) {
+            if (lowerBound == upperBound) {
+                res.fillOneValue(i, 0, lowerBound);
+            } else {
+                res.fillOneValue(i, 0, random.nextDouble(lowerBound, upperBound));
+            }
+        }
+        return res;
+    }
+
     public int getRowCount() {
         return rowCount;
     }
