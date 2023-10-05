@@ -158,6 +158,16 @@ public class Matrix {
         return res;
     }
 
+    public static Matrix getIdentityMatrix(int n) {
+        if (n < 0) {
+            System.out.println("Can't create matrix with negative dimensions. Returning null.");
+            return null;
+        }
+        Matrix res = new Matrix(n, n);
+        for (int i = 0; i < n; ++i) { res.fillOneValue(i, i, 1); }
+        return res;
+    }
+
     public int getRowCount() {
         return rowCount;
     }

@@ -276,4 +276,18 @@ public class MatrixTest {
 
         assertTrue(matrixesEqual(new double[][]{{-2.2, 0, 0}, {0, 3.1, 0}, {0, 0, 0.2}}, res.getData(), 1e-8));
     }
+
+    @Test
+    void ShouldReturnIdentityMatrix() {
+        Matrix res = Matrix.getIdentityMatrix(3);
+
+        assertTrue(matrixesEqual(new double[][]{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}, res.getData(), 1e-8));
+    }
+    @Test
+    void ShouldNotReturnIdentityMatrix() {
+        Matrix res = Matrix.getIdentityMatrix(-1);
+
+        assertNull(res);
+        assertEquals("Can't create matrix with negative dimensions. Returning null.", outputStreamCaptor.toString().trim());
+    }
 }
