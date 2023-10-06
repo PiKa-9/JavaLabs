@@ -162,7 +162,7 @@ public class MatrixTest {
     }
 
     @Test
-    void equalsTest() {
+    public void equalsTest() {
         Matrix A = new Matrix(3, 2);
         Matrix B = new Matrix(3, 2);
         Matrix C = new Matrix(3, 1);
@@ -181,7 +181,7 @@ public class MatrixTest {
         assertFalse(A.equals(E));
     }
     @Test
-    void hashCodeTest() {
+    public void hashCodeTest() {
         Matrix A = new Matrix(3, 2);
         Matrix B = new Matrix(3, 2);
         Matrix C = new Matrix(2, 1);
@@ -197,7 +197,7 @@ public class MatrixTest {
     }
 
     @Test
-    void ShouldAddMatrix() {
+    public void ShouldAddMatrix() {
         Matrix A = new Matrix(3, 2);
         Matrix B = new Matrix(3, 2);
         A.fillMatrix(new double[][]{{-1, 3.2}, {1, 2}, {-2.3, 2.213}});
@@ -221,7 +221,7 @@ public class MatrixTest {
     }
 
     @Test
-    void ShouldMultiplyByScalar() {
+    public void ShouldMultiplyByScalar() {
         Matrix A = new Matrix(2, 2);
         A.fillMatrix(new double[][]{{1, 2}, {-2.3, 2.213}});
 
@@ -233,7 +233,7 @@ public class MatrixTest {
     }
 
     @Test
-    void ShouldMultiplyMatrixes() {
+    public void ShouldMultiplyMatrixes() {
         Matrix A = new Matrix(3, 2);
         Matrix B = new Matrix(2, 3);
         A.fillMatrix(new double[][]{{-1, 1.5}, {1., 2.}, {-2.3, 2.}});
@@ -257,7 +257,7 @@ public class MatrixTest {
     }
 
     @Test
-    void ShouldTranspose() {
+    public void ShouldTranspose() {
         Matrix A = new Matrix(3, 2);
         A.fillMatrix(new double[][]{{-1, 1.5}, {1., 2.}, {-2.3, 2.}});
 
@@ -269,7 +269,7 @@ public class MatrixTest {
     }
 
     @Test
-    void ShouldReturnDiagonalMatrix() {
+    public void ShouldReturnDiagonalMatrix() {
         double[] arr = new double[]{-2.2, 3.1, 0.2};
 
         Matrix res = Matrix.getDiagonalMatrix(arr);
@@ -278,13 +278,13 @@ public class MatrixTest {
     }
 
     @Test
-    void ShouldReturnIdentityMatrix() {
+    public void ShouldReturnIdentityMatrix() {
         Matrix res = Matrix.getIdentityMatrix(3);
 
         assertTrue(matrixesEqual(new double[][]{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}, res.getData(), 1e-8));
     }
     @Test
-    void ShouldNotReturnIdentityMatrix() {
+    public void ShouldNotReturnIdentityMatrix() {
         Matrix res = Matrix.getIdentityMatrix(-1);
 
         assertNull(res);
@@ -292,7 +292,7 @@ public class MatrixTest {
     }
 
     @Test
-    void ShouldReturnRowMatrix() {
+    public void ShouldReturnRowMatrix() {
         Matrix A = Matrix.getRandomRowMatrix(3, -3, 3);
         Matrix B = Matrix.getRandomRowMatrix(4, 1, 1);
 
@@ -305,14 +305,14 @@ public class MatrixTest {
         assertArrayEquals(new double[][]{{1, 1, 1, 1}}, B.getData());
     }
     @Test
-    void ShouldNotReturnRowMatrix() {
+    public void ShouldNotReturnRowMatrix() {
         Matrix res = Matrix.getRandomRowMatrix(-1, -3, 3);
 
         assertNull(res);
         assertEquals("Can't create matrix with negative dimension. Returning null.", outputStreamCaptor.toString().trim());
     }
     @Test
-    void ShouldNotReturnRowMatrixInvalidRange() {
+    public void ShouldNotReturnRowMatrixInvalidRange() {
         Matrix res = Matrix.getRandomRowMatrix(3, 1, 0);
 
         assertNull(res);
@@ -320,7 +320,7 @@ public class MatrixTest {
     }
 
     @Test
-    void ShouldReturnColumnMatrix() {
+    public void ShouldReturnColumnMatrix() {
         Matrix A = Matrix.getRandomColumnMatrix(3, -3, 3);
         Matrix B = Matrix.getRandomColumnMatrix(4, 1, 1);
 
@@ -333,17 +333,107 @@ public class MatrixTest {
         assertArrayEquals(new double[][]{{1}, {1}, {1}, {1}}, B.getData());
     }
     @Test
-    void ShouldNotReturnColumnMatrix() {
+    public void ShouldNotReturnColumnMatrix() {
         Matrix res = Matrix.getRandomColumnMatrix(-1, -3, 3);
 
         assertNull(res);
         assertEquals("Can't create matrix with negative dimension. Returning null.", outputStreamCaptor.toString().trim());
     }
     @Test
-    void ShouldNotReturnColumnMatrixInvalidRange() {
+    public void ShouldNotReturnColumnMatrixInvalidRange() {
         Matrix res = Matrix.getRandomColumnMatrix(3, 1, 0);
 
         assertNull(res);
         assertEquals("Invalid range. Returning null.", outputStreamCaptor.toString().trim());
     }
+
+
+    // Testing Inverse Matrix
+    @Test
+    public void ShouldSwapRows() {
+        Matrix A = new Matrix(3, 3);
+        A.fillMatrix(new double[][]{{0, 1, 1}, {1, -1, 1}, {-2, 1, 1}});
+
+        A.swapRows(0, 2);
+
+        assertTrue(matrixesEqual(new double[][]{{-2, 1, 1}, {1, -1, 1}, {0, 1, 1}}, A.getData(), 1e-8));
+    }
+    @Test
+    public void ShouldAddRows() {
+        Matrix A = new Matrix(3, 3);
+        A.fillMatrix(new double[][]{{1, 1, 1}, {1.5, -1, 1}, {-1.22, 1, 1}});
+
+        A.addRows(-1.5, 0, 1);
+
+        assertTrue(matrixesEqual(new double[][]{{1, 1, 1}, {0, -2.5, -0.5}, {-1.22, 1, 1}}, A.getData(), 1e-8));
+    }
+    @Test
+    public void ShouldDivideRowByScalar() {
+        Matrix A = new Matrix(3, 3);
+        A.fillMatrix(new double[][]{{1, 1, 1}, {1.5, -1, 1}, {-1.22, 1, 1}});
+
+        A.divideRowByScalar(3., 1);
+
+        assertTrue(matrixesEqual(new double[][]{{1, 1, 1}, {0.5, -1./3, 1./3}, {-1.22, 1, 1}}, A.getData(), 1e-8));
+
+        A.divideRowByScalar(0, 0);
+        assertTrue(matrixesEqual(new double[][]{{1, 1, 1}, {0.5, -1./3, 1./3}, {-1.22, 1, 1}}, A.getData(), 1e-8));
+    }
+    @Test
+    public void ShouldTransformToTriangularForm() {
+        Matrix A = new Matrix(3, 3);
+        Matrix B = Matrix.getIdentityMatrix(3);
+        A.fillMatrix(new double[][]{{1, 1, 1}, {1, -1, 1}, {-2, 1, 1}});
+
+        try {
+            Matrix.transformToTriangularForm(A, B);
+        } catch (Exception e) {
+            fail("Thrown an Exception, but triangular form of matrix was expected.");
+        }
+
+        assertTrue(matrixesEqual(new double[][]{{1, 1, 1}, {0, 1, 0}, {0, 0, 1}}, A.getData(), 1e-8));
+        assertTrue(matrixesEqual(new double[][]{{1, 0, 0}, {0.5, -0.5, 0}, {1./6, 1./2, 1./3}}, B.getData(), 1e-8));
+    }
+    @Test
+    public void ShouldTransformFromTriangularToDiagonalForm() {
+        Matrix A = new Matrix(3, 3);
+        Matrix B = new Matrix(3, 3);
+        A.fillMatrix(new double[][]{{1, 1, 1}, {0, 1, 0}, {0, 0, 1}});
+        B.fillMatrix(new double[][]{{1, 0, 0}, {0.5, -0.5, 0}, {1./6, 1./2, 1./3}});
+
+        Matrix.transformFromTriangularToDiagonalForm(A, B);
+
+        assertTrue(matrixesEqual(new double[][]{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}, A.getData(), 1e-8));
+        assertTrue(matrixesEqual(new double[][]{{1./3, 0, -1./3}, {0.5, -0.5, 0}, {1./6, 1./2, 1./3}}, B.getData(), 1e-8));
+    }
+
+    @Test
+    public void ShouldReturnInverse() {
+        Matrix A = new Matrix(3, 3);
+        A.fillMatrix(new double[][]{{1, 1, 1}, {1, -1, 1}, {-2, 1, 1}});
+
+        Matrix res = A.getInverse();
+
+        assertTrue(matrixesEqual(new double[][]{{1./3, 0, -1./3}, {0.5, -0.5, 0}, {1./6, 0.5, 1./3}}, res.getData(), 1e-8));
+    }
+    @Test
+    public void ShouldNotReturnInverse() {
+        Matrix A = new Matrix(3, 2);
+
+        Matrix res = A.getInverse();
+
+        assertNull(res);
+        assertEquals("Dimensions aren't equal, can't calculate Inverse matrix. Returning null.", outputStreamCaptor.toString().trim());
+    }
+    @Test
+    public void ShouldNotReturnInverseZeroDeterminant() {
+        Matrix A = new Matrix(3, 3);
+        A.fillMatrix(new double[][]{{1, 1, 1}, {1, 1, 1}, {1, 2, 1}});
+
+        Matrix res = A.getInverse();
+
+        assertNull(res);
+        assertEquals("Determinant of matrix is 0, can't calculate Inverse matrix. Returning null.", outputStreamCaptor.toString().trim());
+    }
+
 }

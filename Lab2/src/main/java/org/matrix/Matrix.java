@@ -215,6 +215,78 @@ public class Matrix {
         return res;
     }
 
+
+    public void swapRows(int row1, int row2) {
+        double[] tmp = data[row1];
+        data[row1] = data[row2];
+        data[row2] = tmp;
+    }
+    public void addRows(double coefficient, int rowToAdd, int rowToModify) {
+        for (int j = 0; j < colCount; ++j) {
+            data[rowToModify][j] += coefficient * data[rowToAdd][j];
+        }
+    }
+    public void divideRowByScalar(double scalar, int row) {
+        if (scalar == 0) {return;}
+        for (int j = 0; j < colCount; ++j) {
+            data[row][j] /= scalar;
+        }
+    }
+    public static void transformToTriangularForm(Matrix left, Matrix right) throws Exception {
+        int n = left.rowCount;
+        for (int j = 0; j < n; ++j) {
+            // Find the row with non-zero element in j-th column
+            for (int i = j; i < n; ++i) {
+                if (left.getElement(i, j) != 0) {
+                    left.swapRows(j, i);
+                    right.swapRows(j, i);
+                    break;
+                }
+            }
+            if (left.getElement(j, j) == 0) { throw new Exception("Determinant of matrix is 0, can't calculate Inverse matrix."); }
+            double x = left.getElement(j, j);
+            left.divideRowByScalar(x, j);
+            right.divideRowByScalar(x, j);
+            for (int i = j+1; i < n; ++i) {
+                double coef = -left.getElement(i, j);
+                left.addRows(coef, j, i);
+                right.addRows(coef, j, i);
+            }
+        }
+    }
+    public static void transformFromTriangularToDiagonalForm(Matrix left, Matrix right) {
+        int n = left.rowCount;
+        for (int j = n-1; j > 0; --j) {
+            for (int i = j-1; i >= 0; --i) {
+                double coef = -left.getElement(i, j)/left.getElement(j, j);
+                left.addRows(coef, j, i);
+                right.addRows(coef/left.getElement(j, j), j, i);
+            }
+        }
+    }
+    public Matrix getInverse() {
+        if (rowCount != colCount) {
+            System.out.println("Dimensions aren't equal, can't calculate Inverse matrix. Returning null.");
+            return null;
+        }
+        Matrix left = new Matrix(this);
+        Matrix right = Matrix.getIdentityMatrix(rowCount);
+
+        // Transform the left matrix to Upper Triangular form, with 1s on the main diagonal
+        try {
+            transformToTriangularForm(left, right);
+        } catch (Exception e) {
+            System.out.println(e.getMessage() + " Returning null.");
+            return null;
+        }
+
+        // Transform the left matrix from Triangular to Diagonal form
+        transformFromTriangularToDiagonalForm(left, right);
+
+        // Return the right matrix (it will be Inverse to original)
+        return right;
+    }
+
     public int getRowCount() {
         return rowCount;
     }
