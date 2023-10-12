@@ -3,10 +3,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.matrix.ImmutableMatrix;
 import org.matrix.Matrix;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,11 +32,30 @@ public class MatrixTest {
     @BeforeEach void setUp() {
         System.setOut(new PrintStream(outputStreamCaptor));
     }
-    @AfterEach
-    public void tearDown() {
+    @AfterEach public void tearDown() {
         System.setOut(standardOut);
     }
 
+    @Test
+    void InsideDataImmutabilityCheck() {
+        // Checks if copy(not the references) of the data are returned
+        Matrix A = new Matrix(3, 2);
+        A.fillMatrix(new double[][]{{1, 2}, {-2.3, 2.213}, {0, 3.3}});
+
+        double[][] data = A.getData();
+        assertArrayEquals(data, A.getData());
+
+        data[0][0] = 2.2; // though it should not change in matrix A
+        assertFalse(Arrays.deepEquals(data, A.getData()));
+
+        double[] row = A.getRow(0);
+        row[1] = -200.;
+        assertNotEquals(row[1], A.getElement(0, 1));
+
+        double[] col = A.getCol(0);
+        col[0] = -200.;
+        assertNotEquals(col[0], A.getElement(0, 0));
+    }
 
     @Test
     public void ShouldCreateEmptyMatrix() {

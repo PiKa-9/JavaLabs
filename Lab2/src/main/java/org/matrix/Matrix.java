@@ -59,7 +59,11 @@ public class Matrix {
     }
     public double[] getRow(int i) {
         if ((0 <= i) && (i < rowCount)) {
-            return data[i];
+            double[] row = new double[colCount];
+            for (int j = 0; j < colCount; ++j) {
+                row[j] = data[i][j];
+            }
+            return row;
         } else {
             System.out.println("Invalid index range. Returning NULL.");
             return null;
@@ -294,6 +298,10 @@ public class Matrix {
         return colCount;
     }
     public double[][] getData() {
-        return data;
+        double[][] dataCopy = new double[rowCount][colCount];
+        for (int i = 0; i < rowCount; ++i) {
+            System.arraycopy(data[i], 0, dataCopy[i], 0, colCount);
+        }
+        return dataCopy;
     }
 }

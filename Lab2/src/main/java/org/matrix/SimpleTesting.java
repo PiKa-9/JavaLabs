@@ -40,12 +40,10 @@ public class SimpleTesting {
         // Immutable Matrix testing
 //        Matrix A = new Matrix(3, 3);
 //        A.fillMatrix(new double[][]{{1, 1, 1}, {-1, 1, -1.6}, {-1.22, 1, 1}});
-//        ImmutableMatrix immutableA = new ImmutableMatrix(3, 3);
+//        ImmutableMatrix immutableA = new ImmutableMatrix(A);
 //        immutableA.fillMatrix(new double[][]{{1, 1, 1}, {-1, 1, -1.6}, {-1.22, 1, 1}});
-//        double[][] data = immutableA.getData();
-//        System.out.println(immutableA.getElement(0, 0));
-//        data[0][0] = 2.2;
-//        System.out.println(immutableA.getElement(0, 0));
+//
+//        displayMatrix(immutableA.getInverse());
 
         // Generic Matrix Testing
         MatrixElementImpl<String> ele1 = new MatrixElementImpl<>("Hi");
