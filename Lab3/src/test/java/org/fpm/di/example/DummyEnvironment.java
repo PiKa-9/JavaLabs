@@ -8,6 +8,8 @@ public class DummyEnvironment implements Environment {
 
     @Override
     public Container configure(Configuration configuration) {
-        return new DummyContainer();
+        DummyBinder binder = new DummyBinder();
+        configuration.configure(binder);
+        return new DummyContainer(binder);
     }
 }

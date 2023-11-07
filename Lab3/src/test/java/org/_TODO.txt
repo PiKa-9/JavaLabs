@@ -1,0 +1,3 @@
+DONE -> 1. Make so basic tests pass
+
+2. Create PicoContainer class -> write advanced tests in 'test/.../pico' package
