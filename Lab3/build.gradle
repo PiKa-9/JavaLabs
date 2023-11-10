@@ -6,6 +6,7 @@
  */
 plugins {
     id 'java'
+    id 'jacoco'
 }
 
 group 'org.fpm'
@@ -23,4 +24,8 @@ dependencies {
 
 
     testImplementation group: 'junit', name: 'junit', version: '4.12'
+}
+
+test {
+    finalizedBy jacocoTestReport;
 }
