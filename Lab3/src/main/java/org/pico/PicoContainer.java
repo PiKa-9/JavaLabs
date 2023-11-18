@@ -52,6 +52,7 @@ public class PicoContainer implements Container {
         }
 
         if (graph.hasSingleton(clazz)) {
+            currentClasses.remove(currentClasses.size() - 1);
             return (T) graph.getSingleton(clazz);
         }
         if (clazz.isAnnotationPresent(Singleton.class)) {

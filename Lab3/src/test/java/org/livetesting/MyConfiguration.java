@@ -9,6 +9,9 @@ import org.livetesting.classes.MySingleton;
 public class MyConfiguration implements org.fpm.di.Configuration {
     @Override
     public void configure(Binder binder) {
+        binder.bind(A.class, B.class);
+        binder.bind(B.class, new B());
+
         binder.bind(MySingleton.class);
         binder.bind(InjectsSingleton.class);
 

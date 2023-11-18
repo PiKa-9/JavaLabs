@@ -4,6 +4,7 @@ import javax.inject.Inject;
 
 public class InjectsSingleton {
     private MySingleton singleton;
+
     @Inject
     public InjectsSingleton(MySingleton singleton) {
         this.singleton = singleton;

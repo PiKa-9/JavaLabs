@@ -182,13 +182,13 @@ public class PicoContainerTest {
     @Test
     public void shouldHandleCyclicDependencies() {
         /*
-        todo: check how visitedClasses map works - debug it
         Dependency in constructors:
         Cyclic1(Cyclic2); Cyclic2(Cyclic3); Cyclic3(Cyclic1);
         binder.bind(Cyclic1.class);
         binder.bind(Cyclic2.class);
         binder.bind(Cyclic3.class);
         */
+
         assertNull(container.getComponent(Cyclic1.class));
         try {
             container.clearCurrentClasses();
